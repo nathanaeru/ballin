@@ -1,10 +1,14 @@
 # **Ballin: An Online Football Shop**
 
+**DISCLAIMER**: Repositori ini dibuat untuk rangkaian tugas individu mata kuliah Pemrograman Berbasis Platform Ilmu Komputer Universitas Indonesia, atas nama Nathanael Leander Herdanatra, NPM 2406421320. Aplikasi yang terdapat di repositori ini merupakan simulasi dan bukan toko online asli.\*
+
 ### **Overview**
+
+Projek ini adalah _web app_ untuk aplikasi toko sepak bola _online_ berbasis web yang menggunakan _framework_ Django.
 
 _Deployment link_: [https://nathanael-leander-ballin.pbp.cs.ui.ac.id/](https://nathanael-leander-ballin.pbp.cs.ui.ac.id/)
 
-Saat ini hanya menampilkan data pembuat aplikasi.
+Saat ini, _website_ hanya menampilkan data pembuat aplikasi.
 
 ### **Proses Implementasi _Step-by-Step_**
 
@@ -130,7 +134,7 @@ Berikut merupakan langkah-langkah yang ditempuh untuk mengimplementasikan Django
     ]
     ```
 
--   Membuat file [`main/urls.py`](main/urls.py) sebagai rute URL aplikasi `main`.
+-   Membuat file [`main/urls.py`](main/urls.py) sebagai rute URL aplikasi `main`. Untuk sementara biarkain file ini kosong dulu.
 
 #### **> Membuat model pada aplikasi `main` dengan nama `Product`**
 
@@ -180,3 +184,55 @@ Berikut merupakan langkah-langkah yang ditempuh untuk mengimplementasikan Django
             self.price = new_price
             self.save()
     ```
+
+#### **> Membuat sebuah fungsi pada `views.py` untuk dikembalikan ke dalam sebuah _template_ HTML yang menampilkan nama aplikasi serta nama dan kelas**
+
+-   Fungsi didefinisikan pada [`main/views.py`](main/views.py) yang bertujuan menampilkan konteks data yang akan di-_render_ pada tampilan HTML.
+
+    ```python
+    from django.shortcuts import render
+
+
+    # Create your views here.
+    def show_main(request):
+        context = {
+            "name": "Nathanael Leander Herdanatra",
+            "class": "PBP A",
+        }
+
+        return render(request, "main.html", context)
+    ```
+
+-   _Template_ HTML didefinisikan di berkas [`main/templates/main.html`](main/templates/main.html) dan isinya menampilkan nama aplikasi serta variabel nama dan kelas.
+
+    ```html
+    <h1>Ballin Football Shop</h1>
+
+    <h4>Name:</h4>
+    <p>{{ name }}</p>
+    <h4>Class:</h4>
+    <p>{{ class }}</p>
+    ```
+
+#### **> Membuat sebuah _routing_ pada `urls.py` aplikasi main untuk memetakan fungsi yang telah dibuat pada `views.py`**
+
+-   Memodifikasi file [`main/urls.py`](main/urls.py) sebagai berikut untuk menyambungkan _request_ ke fungsi `show_main`.
+
+    ```python
+    from django.urls import path
+    from main.views import show_main
+
+    app_name = "main"
+
+    urlpatterns = [
+        path("", show_main, name="show_main"),
+    ]
+    ```
+
+#### **> Melakukan _deployment_ ke PWS terhadap aplikasi yang sudah dibuat sehingga dapat diakses melalui Internet**
+
+-   Membuat proyek baru di [PWS](https://pbp.cs.ui.ac.id/web) dan di GitHub.
+-   Melakukan inisiasi repositori Git lokal.
+-   Membuat _branch_ `master` sebagai _branch_ utama proyek.
+-   Menghubungkan repositori lokal dengan repositori GitHub dan repositori di PWS.
+-   Melakukan _add_, _commit_, dan _push_ ke kedua repositori sehingga perubahannya dapat diakses di GitHub dan _website_ dapat langsung _online_.
