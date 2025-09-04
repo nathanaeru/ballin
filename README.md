@@ -16,12 +16,30 @@ Berikut merupakan
 
 ##### **> Membuat proyek Django baru**
 
--   Menginisialisasi lingkungan virtual (_virtual environment_) Python baru sebagai _runtime_ pengembangan aplikasi.
+-   Menginisialisasi lingkungan virtual (_virtual environment_) Python sebagai*runtime* pengembangan aplikasi.
     ```powershell
     python -m venv env
     env\Scripts\activate
     ```
--   Melakukan instalasi library-library Python yang diperlukan (terdapat dalam file [requirements.txt](requirements.txt))
+-   Melakukan instalasi library-library Python yang diperlukan (didefinisikan dalam file [`requirements.txt`](requirements.txt)).
     ```powershell
     pip install -r requirements.txt
+    ```
+-   Melakukan inisialisasi proyek Django baru/
+    ```powershell
+    django-admin startproject ballin .
+    ```
+-   Menginisialisasi file `.env` (_environment variables_ repositori lokal) dan `.env.prod` (_environment variables_ untuk*production deployment*) yang berisi konfigurasi kredensial dan variabel-variabel yang diperlukan untuk berinteraksi dengan _database_.
+-   Memodifikasi [`settings.py`](ballin/settings.py) untuk menggunakan _environment variables_ yang sudah didefinisikan sebelumnya.
+
+    ```python3
+    ...
+
+    import os
+    from dotenv import load_dotenv
+
+    # Load environment variables from .env file
+    load_dotenv()
+
+    ...
     ```
