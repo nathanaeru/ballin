@@ -246,7 +246,7 @@ Berikut merupakan langkah-langkah yang ditempuh untuk mengimplementasikan Django
 
 ### **Bagan Alur _Request Website_ Django**
 
-Berikut merupakan bagan yang berisikan _request client_ ke web aplikasi berbasis Django beserta responnya.
+Berikut merupakan bagan yang berisikan _request client_ ke web aplikasi berbasis Django beserta responsnya.
 ![Diagram alur request Django](assets/DIAGRAM.png)
 [_Full image Figma link_](https://www.figma.com/design/nmNjwT86D4c3ofaUFjXISM/Django?node-id=0-1&t=1sdKesRVngFeUump-1)
 
@@ -277,7 +277,7 @@ Django Software Foundation. (2025). _Settings_ | _Django documentation_. Django 
 
 Dalam Django, migrasi adalah cara Django melacak dan mengimplementasi perubahan pada model atau _database_ proyek atau aplikasi. Dapat dikatakan migrasi ini adalah semacam _version control_ untuk skema _database_. Terdapat dua perintah yang umum digunakan dalam proses migrasi, yaitu `makemigrations` dan `migrate`.
 
-Perintah `makemigrations` mengumpulkan perubahan=perubahan yang terjadi dalam satu file migrasi, sama seperti fungsi `commit` pada aplikasi _version control_ seperti Git. Sementara itu, perintah `migrate`, mengaplikasikan perubahan tersebut pada _database_, anggap seperti perintah `push` yang digunakan pada _database_.
+Perintah `makemigrations` mengumpulkan perubahan-dperubahan yang terjadi dalam satu file migrasi, sama seperti fungsi `commit` pada aplikasi _version control_ seperti Git. Sementara itu, perintah `migrate`, mengaplikasikan perubahan tersebut pada _database_, anggap seperti perintah `push` yang digunakan pada _database_.
 
 Referensi:
 
