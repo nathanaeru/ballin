@@ -8,7 +8,7 @@ Projek ini adalah _web app_ untuk aplikasi toko sepak bola _online_ berbasis web
 
 _Deployment link_: [https://nathanael-leander-ballin.pbp.cs.ui.ac.id/](https://nathanael-leander-ballin.pbp.cs.ui.ac.id/)
 
-Saat ini, _website_ hanya menampilkan data pembuat aplikasi.
+Saat ini, _website_ menampilkan daftar produk yang bisa ditambah oleh pengguna.
 
 ### **Proses Implementasi _Step-by-Step_**
 
