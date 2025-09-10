@@ -1,19 +1,30 @@
+from sre_parse import CATEGORIES
 from django.db import models
 import uuid
 
 
 # Create your models here.
 class Product(models.Model):
+    CATEGORIES = [
+        ("ball", "Ball"),
+        ("jersey", "Jersey"),
+        ("shoes", "Shoes"),
+        ("accessories", "Accessories"),
+        ("apparel", "Apparel"),
+        ("merchandise", "Merchandise"),
+        ("others", "Others"),
+    ]
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField()
-    brand = models.CharField()
+    name = models.CharField(max_length=255)
+    brand = models.CharField(max_length=255)
     price = models.IntegerField()
     stock = models.IntegerField()
     sold = models.IntegerField(default=0)
-    description = models.TextField()
-    thumbnail = models.URLField()
-    category = models.CharField()
-    is_featured = models.BooleanField(default=False)
+    description = models.TextField(default="", blank=True)
+    thumbnail = models.URLField(default="", blank=True)
+    category = models.CharField(max_length=20, choices=CATEGORIES)
+    is_featured = models.BooleanField()
 
     def __str__(self):
         return self.name
