@@ -26,7 +26,7 @@ def show_main(request):
 
     context = {
         "name": "Nathanael Leander Herdanatra",
-        "npm": "21406421320",
+        "npm": "2406421320",
         "class": "PBP A",
         "products": products,
         "last_login": request.COOKIES.get("last_login", "Never"),
