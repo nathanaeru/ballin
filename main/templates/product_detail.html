@@ -6,10 +6,14 @@
         </a>
     </p>
     <h1>{{ product.name }}</h1>
+    <h3>
+        <b>Seller:</b> {{ product.user.username }}
+    </h3>
+    <br />
     {% if product.is_featured %}<span style="color: mediumblue; font-weight: bold;">★ Featured Product</span>{% endif %}
     {% if product.is_hot_selling %}<span style="color: orange; font-weight: bold;">🔥 Hot Selling</span>{% endif %}
     <h2>
-        <b>Price:</b> ${{ product.price }}
+        <b>Price:</b> Rp{{ product.price }}
     </h2>
     {% if product.thumbnail %}
         <img src="{{ product.thumbnail }}" alt="{{ product.name }}" width="300">

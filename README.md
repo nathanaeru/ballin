@@ -10,7 +10,8 @@ _Deployment link_: [https://nathanael-leander-ballin.pbp.cs.ui.ac.id/](https://n
 
 Saat ini, _website_ menampilkan daftar produk yang bisa ditambah oleh pengguna.
 
-## **Jawaban Pertanyaan Tugas 2**
+<details>
+<summary><h2><b>Jawaban Pertanyaan Tugas 2</b></h2></summary>
 
 ### **Proses Implementasi _Step-by-Step_**
 
@@ -305,7 +306,10 @@ Tim Dosen PBP. (nd). "Introduction to the Internet and Web Framework". Fakultas 
 
 Kinerja asdos sudah bagus, responsif dalam menjawab permasalahan yang dialami _mentee_ selama sesi tutorial. Pertahankan terus, ya!
 
-## **Jawaban Pertanyaan Tugas 3**
+</details>
+
+<details>
+<summary><h2><b>Jawaban Pertanyaan Tugas 3</b></h2></summary>
 
 ### **Fungsi _data delivery_ dalam pengimplementasian sebuah platform**
 
@@ -563,3 +567,98 @@ _Request_ XML produk Nike
 
 _Request_ JSON produk Nike
 ![Whole page JSON](assets/req_json_nike.png)
+
+</details>
+
+<details>
+<summary><h2><b>Jawaban Pertanyaan Tugas 4</b></h2></summary>
+
+### **Apa itu `AuthenticationForm`?**
+
+`AuthenticationForm` adalah kelas bawaan Django yang berfungsi sebagai _preset_ untuk halaman autentikasi pengguna (simpelnya, _built-in form_ untuk _user login_ sehingga tidak perlu diimplementasi dari nol lagi). Kelebihan `AuthenticationForm` adalah penggunaannya yang mudah dan sudah terintegrasi dengan fitur-fitur keamanan bawaan Django. Kelemahannya adalah kurang fleksibel untuk kustomisasi, tampilan sederhana dan kurang menarik, dan hanya mendukung autentikasi berbasis _username_ dan _password_.
+
+Referensi:
+
+Django Software Foundation. (2025). _Using the Django authentication system | Django documentation_. Django Project. https://docs.djangoproject.com/en/5.2/topics/auth/default/ (Diakses pada 19 September 2025)
+
+### **Perbedaan autentikasi dan otorisasi**
+
+**Autentikasi (_authentication_)** adalah proses memverifikasi identitas pengguna yang **akan** masuk ke suatu sistem, misal login dengan _username_ dan _password_. Dalam hal ini, Django menyediakan sistem autentikasi bawaan (`django.contrib.auth`). Pengguna melakukan login dengan form yang tersedia, data login akan dicek di database, dan jika benar, sesi baru dibuat dibuat.
+
+**Otorisasi (authorization)** adalah proses menentukan hak akses pengguna yang **sudah** masuk ke suatu sistem, misal boleh/tidaknya mengakses halaman tertentu. Dalam hal ini, Django menggunakan permission dan group. Setiap pengguna bisa punya permission tertentu (misal, _add, change, delete_ objek). Decorator, seperti `@login_required` digunakan di view untuk membatasi akses, misal hanya ketika pengguna sudah login.
+
+Referensi:
+
+Kosinski, M. (2024, 28 Juni). _Autentikasi vs otorisasi_. IBM.com. https://www.ibm.com/id-id/think/topics/authentication-vs-authorization (Diakses pada 19 September 2025)
+
+### **Kelebihan dan kekurangan _session_ dan _cookies_**
+
+_Session_ dan _cookies_ keduanya digunakan untuk menyimpan informasi pengguna dalam aplikasi web, namun memiliki perbedaan yang signifikan. _Session_ menyimpan data di sisi server, sehingga lebih aman karena data tidak terekspos ke klien. Selain itu, _session_ dapat menyimpan jumlah data yang lebih besar dibandingkan _cookies_. Namun, pendekatan ini juga membuat kinerja sedikit lebih lambat karena setiap permintaan memerlukan pemrosesan di server. Data dalam _session_ juga akan hilang jika sesi berakhir atau server di-_restart_, kecuali jika disimpan di database.
+
+Di sisi lain, _cookies_ menyimpan data di sisi klien (browser), sehingga lebih cepat karena data langsung dikirim bersama setiap permintaan. _Cookies_ juga dapat bertahan bahkan setelah browser ditutup, selama belum kedaluwarsa/_expired_. Namun, _cookies_ kurang aman karena data terekspos ke klien dan dapat dengan mudah disadap oleh pihak tak bertanggung jawab. Selain itu, ukuran data yang dapat disimpan dalam _cookies_ terbatas hanya 4KB per _cookie_.
+
+Secara umum, _cookies_ cocok digunakan untuk menyimpan data preferensi pengguna atau token autentikasi, sementara _session_ lebih cocok untuk menyimpan informasi sensitif seperti autentikasi pengguna.
+
+Referensi:
+
+GeeksforGeeks. (2021, 20 Oktober). _Difference Between Session and Cookies_. GeeksforGeeks. https://www.geeksforgeeks.org/javascript/difference-between-session-and-cookies/ (Diakses pada 19 September 2025)
+
+### **Keamanan dan penanganan _cookies_**
+
+Secara _default_, semua nilai yang disimpan dalam sebuah _cookie_ dapat terlihat dan dimodifikasi oleh pengguna akhir. Hal ini dapat menimbulkan risiko keamanan di mana _cookie_ tersebut dapat dibaca dan dimodifikasi oleh pihak tak bertanggung jawab, atau dipergunakan untuk mengakses domain yang tidak aman.
+
+Django dapat menangani permasalahan tersebut dengan menerapkan fitur keamanan tambahan. Salah satunya adalah penerapan _secure cookies_, di mana _user agent_ hanya akan mengirim _cookies_ lewat koneksi HTTPS yang bersifat aman. Hal ini dapat dilakukan dengan menyetel `SESSION_COOKIE_SECURE` and `CSRF_COOKIE_SECURE` di `settings.py` ke `True`.
+
+Referensi:
+
+Django Software Foundation. (2025). _Security in Django | Django documentation_. Django Project. https://docs.djangoproject.com/en/5.2/topics/security/ (Diakses pada 19 September 2025)
+
+Mozilla. (2025, 14 Maret). _Using HTTP cookies - HTTP | MDN_. MDN Web Docs. https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies (Diakses pada 19 September 2025)
+
+### **Proses Implementasi _Step-by-Step_**
+
+Berikut merupakan langkah-langkah yang ditempuh dalam kelanjutan pembuatan proyek ini.
+
+#### **> Mengimplementasikan fungsi registrasi, login, dan logout untuk memungkinkan pengguna mengakses aplikasi sebelumnya sesuai dengan status login/logoutnya.**
+
+-   Menambahkan fungsi `login_user`, `logout_user`, dan `register_user` pada [`main/views.py`](main/views.py) untuk menangani login, logout, dan pendaftaran pengguna.
+
+-   Pada fungsi `show_main`, `add_product`, dan `show_product` di [`main/views.py`](main/views.py), tambahkan decorator `@login_required(login_url="/login")` agar tampilan hanya dapat diakses ketika pengguna berhasil login.
+
+-   Membuat halaman [`main/templates/login.html`](main/templates/login.html) dan [`main/templates/register.html`](main/templates/register.html) untuk masing-masing menampilkan halaman login dan register.
+
+-   Melakukan routing pada [`main/urls.py`](main/urls.py) agar dapat diakses melalui URL.
+
+#### **> Menghubungkan model `Product` dengan `User`.**
+
+-   Menambahkan atribut `user` pada [`main/models.py`](main/models.py), setelah itu dilakukan migrasi untuk meng-update model (`python manage.py makemigrations` dan `python manage.py migrate`).
+
+-   Meng-update [`main/templates/main.html`](main/templates/main.html) dan [`main/templates/product_detail.html`](main/templates/product_detail.html) agar dapat menampilkan data pengguna.
+
+-   Sebagai tambahan, memodifikasi [`main/views.py`](main/views.py), tepatnya fungsi `show_main`, agar dapat melakukan _filtering_ produk berdasarkan user penjual, serta meng-update [`main/templates/main.html`](main/templates/main.html) agar memunculkan tombol untuk menampikan produk hasil _filtering_ atau semua produk.
+
+#### **> Membuat dua (2) akun pengguna dengan masing-masing tiga (3) _dummy data_ menggunakan model yang telah dibuat sebelumnya untuk setiap akun di lokal**
+
+-   Menjalankan server di _localhost_ (_python manage.py runserver_) dengan URL di http://127.0.0.1:8000/.
+
+-   Melakukan registrasi 2 akun _dummy_ yaitu SilverShip dan SigmaBalls.
+
+-   Pada masing-masing akun, buat 3 produk baru.
+
+    SilverShip
+
+    ![SilverShip](assets/silver.png)
+
+    SigmaBalls
+
+    ![SigmaBalls](assets/sigma.png)
+
+#### **> Menampilkan detail informasi pengguna yang sedang logged in seperti username dan menerapkan _cookies_ seperti `last_login` pada halaman utama aplikasi.**
+
+-   Memodifikasi fungsi `login_user` di [`main/views.py`](main/views.py) untuk mengirimkan sebuah _cookie_ `last_login` ke klien, serta `logout_user` agar menghapus _cookie_ tersebut.
+
+-   Memodifikasi [`main/templates/main.html`](main/templates/main.html) untuk menampilkan nama pengguna yang saat ini login serta isi dari _cookie_ `last_login`.
+
+    ![COOKIE TIME!](assets/cookie.png)
+
+</details>

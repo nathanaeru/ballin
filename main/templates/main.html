@@ -3,10 +3,23 @@
     <h1>Ballin Football Shop</h1>
     <h4>Name:</h4>
     <p>{{ name }}</p>
+    <h4>NPM:</h4>
+    <p>{{ npm }}</p>
     <h4>Class:</h4>
     <p>{{ class }}</p>
     <a href="{% url 'main:add_product' %}">
         <button>+ Add Product</button>
+    </a>
+    <a href="{% url 'main:logout_user' %}">
+        <button>Logout</button>
+    </a>
+    <h4>User: {{ user.username }}</h4>
+    <h5>Last Login: {{ last_login }}</h5>
+    <a href="?filter=all">
+        <button type="button">All Products</button>
+    </a>
+    <a href="?filter=my">
+        <button type="button">My Products</button>
     </a>
     <hr>
     {% if not products %}
@@ -15,7 +28,7 @@
         {% for product in products %}
             <div>
                 <h3>
-                    <a href="{% url 'main:show_product' product.id %}">{{ product.name }}</a> - ${{ product.price }}
+                    <a href="{% url 'main:show_product' product.id %}">{{ product.name }}</a> - Rp{{ product.price }} - Seller: {{ product.user.username }}
                 </h3>
                 {% if product.thumbnail %}
                     <img src="{{ product.thumbnail }}" alt="{{ product.name }}" height="100">
