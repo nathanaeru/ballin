@@ -61,6 +61,12 @@ def show_product(request, id):
     return render(request, "product_detail.html", context)
 
 
+def delete_product(request, id):
+    product = get_object_or_404(Product, pk=id)
+    product.delete()
+    return HttpResponseRedirect(reverse("main:show_main"))
+
+
 def show_xml(request):
     products = Product.objects.all()
     data = serializers.serialize("xml", products)

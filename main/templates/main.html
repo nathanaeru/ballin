@@ -43,6 +43,9 @@
                 <a href="{% url 'main:show_product' product.id %}">
                     <button>Details</button>
                 </a>
+                <a href="{% url 'main:delete_product' product.id %}">
+                    <button>Delete</button>
+                </a>
                 <hr>
             </div>
         {% endfor %}
