@@ -1,0 +1,89 @@
+.nav-link {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.navbar {
+    background-color: #afcfff;
+}
+
+.navbar-toggler {
+    border: none;
+}
+
+.offcanvas {
+    background-color: #afcfff;
+}
+
+.form-style label {
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.form-style form input,
+form textarea,
+form select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #c4c8cb;
+    border-radius: 0.375rem;
+}
+
+.form-style form input:focus,
+form textarea:focus,
+form select:focus {
+    border: 1px solid #0091ff;
+    outline: none;
+}
+
+.form-style input[type="checkbox"] {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1.25rem;
+    height: 1.25rem;
+    padding: 0;
+    background-color: white;
+    border: 2px solid #c4c8cb;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    position: relative;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.form-style input[type="checkbox"]:checked {
+    background-color: #0091ff;
+    border-color: #0091ff;
+}
+
+.form-style input[type="checkbox"]:checked::after {
+    content: "✓";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: bold;
+    font-size: 0.875rem;
+}
+
+.form-style input[type="checkbox"]:focus {
+    outline: none;
+    border-color: #0091ff;
+}
+
+.bg-primary {
+    background-color: #0091ff !important;
+}
+
+.btn-primary {
+    background-color: #0091ff;
+    border-color: #0091ff;
+}
+
+.btn-primary:hover {
+    background-color: #0091ff;
+    border-color: #007bff;
+}

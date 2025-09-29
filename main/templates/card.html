@@ -1,0 +1,65 @@
+{% load static %}
+<div class="card"
+     style="width: 18rem;
+            margin-left: auto;
+            margin-right: auto">
+    <div class="card-header"
+         style="background-color: white;
+                display: flex;
+                justify-content: space-between">
+        {% if product.thumbnail %}
+            <div style="aspect-ratio: 1/1;
+                        width: 100%;
+                        max-width: 220px;
+                        margin: auto;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        overflow: hidden">
+                <img src="{{ product.thumbnail }}"
+                     alt="{{ product.name }}"
+                     style="height: 80%;
+                            width: 80%;
+                            object-fit: contain" />
+            </div>
+        {% else %}
+            <div style="aspect-ratio: 1/1;
+                        width: 100%;
+                        max-width: 220px;
+                        margin: auto;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        overflow: hidden">
+                <img src="{% static 'images/noimage.png' %}"
+                     class="card-img-top"
+                     alt="No Image Available"
+                     style="height: 80%;
+                            width: 80%;
+                            object-fit: contain">
+            </div>
+        {% endif %}
+    </div>
+    <div class="card-body">
+        {% if product.is_featured %}<span class="badge bg-success">Featured</span>{% endif %}
+        {% if product.is_hot_selling %}<span class="badge bg-danger">Hot</span>{% endif %}
+        {% if product.stock <= 0 %}<span class="badge bg-dark">Out of Stock</span>{% endif %}
+        <h5 class="card-title" style="padding-top: 10px;">{{ product.name|truncatewords:8 }}</h5>
+        <p class="card-text" style="color: #6c757d;">Seller: {{ product.user }}</p>
+        <p class="card-text">{{ product.description|truncatewords:20 }}</p>
+        <p class="card-text" style="font-weight: 600; font-size: 1.25rem;">Rp{{ product.price }}</p>
+    </div>
+    <div class="card-footer"
+         style="background-color: white;
+                display: flex;
+                justify-content: space-between">
+        <a href="{% url 'main:show_product' product.id %}"
+           class="btn btn-primary">Details</a>
+        {% if user.is_authenticated and user == product.user %}
+            <a href="{% url 'main:edit_product' product.id %}"
+               class="btn btn-success">Edit</a>
+            <a href="{% url 'main:delete_product' product.id %}"
+               class="btn btn-danger">Delete</a>
+        {% endif %}
+    </div>
+</div>

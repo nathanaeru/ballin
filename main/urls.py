@@ -14,5 +14,6 @@ urlpatterns = [
     path("login/", login_user, name="login_user"),
     path("logout/", logout_user, name="logout_user"),
     path("register/", register_user, name="register"),
+    path("product/<uuid:id>/edit/", edit_product, name="edit_product"),
     path("product/<uuid:id>/delete/", delete_product, name="delete_product"),
 ]

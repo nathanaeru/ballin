@@ -1,0 +1,52 @@
+{% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/global.css' %}" />
+</head>
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            <img src="{% static 'images/logo.png' %}" alt="Logo" height="50">
+        </a>
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNavbar"
+                aria-controls="offcanvasNavbar"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-end"
+             tabindex="-1"
+             id="offcanvasNavbar"
+             aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <img src="{% static 'images/logo.png' %}" alt="Logo" height="40">
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
+                    <li class="nav-item">
+                        <a href="/" class="nav-link active">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url "main:add_product" %}" class="nav-link active">Add Product</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav justify-content-end pe-3">
+                    {% if user.is_authenticated %}
+                        <div class="d-flex flex-column align-items-end">
+                            <div style="font-size:1.10rem; font-weight:600; padding-right:18px">{{ user.username }}</div>
+                            <div style="font-size:0.85rem;padding-right:18px;">Last Login: {{ user.last_login }}</div>
+                        </div>
+                        <a href="{% url 'main:logout_user' %}"
+                           class="mt-auto justify-content-end">
+                            <button class="btn btn-danger">Logout</button>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>

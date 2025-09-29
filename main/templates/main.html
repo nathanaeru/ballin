@@ -1,54 +1,68 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block meta %}
+    <title>Welcome to Ballin</title>
+{% endblock meta %}
 {% block content %}
-    <h1>Ballin Football Shop</h1>
-    <h4>Name:</h4>
-    <p>{{ name }}</p>
-    <h4>NPM:</h4>
-    <p>{{ npm }}</p>
-    <h4>Class:</h4>
-    <p>{{ class }}</p>
-    <a href="{% url 'main:add_product' %}">
-        <button>+ Add Product</button>
-    </a>
-    <a href="{% url 'main:logout_user' %}">
-        <button>Logout</button>
-    </a>
-    <h4>User: {{ user.username }}</h4>
-    <h5>Last Login: {{ last_login }}</h5>
-    <a href="?filter=all">
-        <button type="button">All Products</button>
-    </a>
-    <a href="?filter=my">
-        <button type="button">My Products</button>
-    </a>
-    <hr>
-    {% if not products %}
-        <p>No products available.</p>
-    {% else %}
-        {% for product in products %}
-            <div>
-                <h3>
-                    <a href="{% url 'main:show_product' product.id %}">{{ product.name }}</a> - Rp{{ product.price }} - Seller: {{ product.user.username }}
-                </h3>
-                {% if product.thumbnail %}
-                    <img src="{{ product.thumbnail }}" alt="{{ product.name }}" height="100">
-                    <br />
-                {% endif %}
-                {% if product.stock > 0 %}
-                    <span style="color: green;">In Stock ({{ product.stock }})</span>
-                {% else %}
-                    <span style="color: red;">Out of Stock</span>
-                {% endif %}
-                <p>{{ product.description|truncatewords:25 }}</p>
-                <a href="{% url 'main:show_product' product.id %}">
-                    <button>Details</button>
-                </a>
-                <a href="{% url 'main:delete_product' product.id %}">
-                    <button>Delete</button>
-                </a>
-                <hr>
+    {% include 'navbar.html' %}
+    <div class="container-fluid"
+         style="background-image: url('{% static 'images/welcome-bg.png' %}');
+                background-size: cover;
+                background-position: center;
+                width: 100%;
+                padding-top: 125px;
+                min-height: 400px">
+        <div class="text-center"
+             style="font-size: 2rem;
+                    color: #ffffff;
+                    margin-top: 20px">Welcome to</div>
+        <div class="text-center"
+             style="font-size: 4rem;
+                    color: #ffffff;
+                    font-weight: 600;
+                    margin-bottom: 50px">Ballin Football Shop</div>
+    </div>
+    <div class="flex flex-column align-items-center">
+        <div class="text-center" style="margin-top: 20px;">
+            <a href="{% url 'main:show_main' %}?filter=all"
+               class="btn btn-primary {% if filter_type == 'all' %}active{% endif %}">All Products</a>
+            <a href="{% url 'main:show_main' %}?filter=mine"
+               class="btn btn-primary {% if filter_type == 'mine' %}active{% endif %}">My Products</a>
+        </div>
+    </div>
+    <div class="container" style="margin-top: 80px;">
+        {% if not products %}
+            <img src="{% static 'images/nothing.png' %}"
+                 alt="No products available"
+                 style="display: block;
+                        margin-left: auto;
+                        margin-right: auto;
+                        width: 30%;
+                        height: auto;
+                        object-fit: contain" />
+            <div class="text-center"
+                 style="font-size: 2rem;
+                        margin-top: 20px;
+                        margin-bottom: 50px">Nothing to display here... yet</div>
+        {% else %}
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for product in products %}
+                    {% include 'card.html' with product=product %}
+                {% endfor %}
             </div>
-        {% endfor %}
-    {% endif %}
-</hr>
+        {% endif %}
+    </div>
+    <div class="container-fluid bg-primary"
+         style="left: 0;
+                bottom: 0;
+                width: 100%;
+                min-height: 80px;
+                text-align: center">
+        <div class="text-center"
+             style="font-size: 1.10rem;
+                    color: #ffffff;
+                    margin-top: 50px;
+                    padding-top: 25px;
+                    padding-bottom: 25px;">Created by {{ name }} - {{ npm }} as a project of class {{ class }}</div>
+    </div>
 {% endblock content %}

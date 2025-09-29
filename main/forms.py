@@ -8,10 +8,10 @@ class ProductForm(ModelForm):
         fields = [
             "name",
             "brand",
+            "category",
             "price",
             "stock",
             "description",
             "thumbnail",
-            "category",
             "is_featured",
         ]

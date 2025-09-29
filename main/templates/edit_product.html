@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block meta %}
-    <title>Add Product - Ballin</title>
+    <title>Edit Product - Ballin</title>
 {% endblock meta %}
 {% block content %}
     {% include 'navbar.html' %}
     <div class="container form-style" style="padding-top: 125px">
         <a href="{% url 'main:show_main' %}" class="btn btn-light mb-3">← Go Back</a>
         <div class="container-fluid text-center px-0">
-            <h1 class="mb-5">Add Product</h1>
+            <h1 class="mb-5">Edit Product</h1>
             <form method="POST">
                 {% csrf_token %}
                 {% for field in form %}
@@ -21,7 +21,7 @@
                         {% for error in field.errors %}<div class="text-danger">{{ error }}</div>{% endfor %}
                     </div>
                 {% endfor %}
-                <button type="submit" class="btn btn-primary mb-5">Add Product</button>
+                <button type="submit" class="btn btn-primary mb-5">Save</button>
             </form>
         </div>
     </div>
