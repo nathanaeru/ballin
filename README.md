@@ -327,7 +327,7 @@ Referensi:
 
 Amazon Web Services. (2025). _JSON vs. XML - Comparing Data Representations - AWS_. Amazon Web Services, Inc. https://aws.amazon.com/compare/the-difference-between-json-xml/ (Diakses pada 10 September 2025)
 
-## **Metode `is_valid()`**
+### **Metode `is_valid()`**
 
 Metode `is_valid()` digunakan untuk memvalidasi data yang sudah diinput pada _form_. Metode ini mengembalikan `True` jika seluruh data yang diinput valid (sesuai dengan tipe data dan restriksi yang ditetapkan) dan `False` jika ada data yang tidak valid (tidak memenuhi ketentuan). Metode ini diperlukan agar data yang diolah pada proses selanjutnya merupakan data yang benar dan tidak menimbulkan `error` dalam pemrosesannya.
 
@@ -335,7 +335,7 @@ Referensi:
 
 Django Software Foundation. (2021). _The Forms API | Django documentation_. Django Project. https://docs.djangoproject.com/en/5.2/ref/forms/api/#using-forms-to-validate-data (Diakses pada 10 September 2025)
 
-## **Kegunaan `csrf_token`**
+### **Kegunaan `csrf_token`**
 
 `csrf_token` adalah perangkat keamanan yang berfungsi untuk melindungsi suatu _website_ dari tipe serangan siber yang dikenal sebagai _cross-site request forgery_ (CSRF). Jika token ini tidak ada atau tidak didefinisikan pada kode _form_, informasi pengguna berupa _cookies_ dan kredensial lain akan dikirimkan setiap pengguna memberikan _request_ pada aplikasi web. Pelaku serangan CSRF dapat memanfaatkan ini dengan meminta pengguna memberikan _request_ pada halaman web yang memungkinkan pelaku mengakses data pengguna tanpa ketahuan, dengan kondisi pengguna masih terautentikasi pada web tersebut. Hal ini terutama dapat dilakukan menggunakan jenis _request_ yang kurang aman seperti POST, PUT, dan DELETE.
 
@@ -660,5 +660,114 @@ Berikut merupakan langkah-langkah yang ditempuh dalam kelanjutan pembuatan proye
 -   Memodifikasi [`main/templates/main.html`](main/templates/main.html) untuk menampilkan nama pengguna yang saat ini login serta isi dari _cookie_ `last_login`.
 
     ![COOKIE TIME!](assets/cookie.png)
+
+</details>
+
+<details>
+<summary><h2><b>Jawaban Pertanyaan Tugas 5</b></h2></summary>
+
+### **Jika terdapat beberapa _CSS selector_ untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan _CSS selector_ tersebut!**
+
+Dalam CSS, terdapat aturan yang dinamakan _CSS specificity_, yang merupakan algoritma penentuan _style declaration_ mana yang diprioritaskan untuk dipakai di suatu elemen. Secara umum, aturan prioritas yang dipakai adalah sebagai berikut.
+
+-   Aturan yang diterapkan lebih akhir adalah yang memiliki prioritas lebih tinggi.
+-   _ID selector_ memiliki prioritas lebih tinggi daripada _attribute selector_.
+-   _Class selector_ memiliki prioritas lebih tinggi daripada _element selector_.
+-   _Universal selector_ tidak berpengaruh pada penentuan prioritas.
+-   _Inline style sheet_ lebih spesifik daripada _external style sheet_ sehingga lebih diprioritaskan.
+-   Penerapan tag `!important` menyebabkan aturan tersebut di-_override_ sehingga mengatasi prioritas sudah pasti akan diterapkan.
+
+Berdasarkan "aturan main" tersebut, urutan pengambilan _CSS selector_ adalah sebagai berikut.
+
+-   Prioritaskan aturan yang diberi tag `!important`...
+-   ... lalu _inline styles_ ...
+-   ... selanjutnya _ID selector_ ...
+-   ... dilanjutkan oleh _classes_, _attribute selectors_, dan _pseudo-classes_ ...
+-   ... lalu _elements_ dan _pseudo-elements_ ...
+-   ... terakhir dengan prioritas terendah adalah _universal selectors_ dan `:where()`.
+
+[Referensi](https://www.w3schools.com/css/css_specificity.asp)
+
+### **Mengapa _responsive design_ menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan responsive design, serta jelaskan mengapa!**
+
+_Responsive design_ memastikan aplikasi web memiliki tampilan menarik dan memiliki usabilitas tinggi di berbagai tipe perangkat, sehingga dapat menarik minat pengguna menggunakan aplikasi karena memiliki pengalaman yang konsisten dan sesuai dengan karakteristik perangkat yang digunakan. Mengingat
+
+_Responsive design_ adalah tentang menggunakan HTML dan CSS untuk secara otomatis mengubah ukuran, menyembunyikan, mengecilkan, atau memperbesar sebuah situs web, untuk membuatnya terlihat bagus di semua perangkat (desktop, tablet, dan ponsel/mobile).
+
+Contoh aplikasi web yang menerapkan _responsive design_ adalah situs-situs media sosial seperti [X](https://x.com) dan [Instagram](https://instagram.com). Dikarenakan aplikasi tersebut umum diakses di berbagai tipe perangkat mulai dari desktop hingga mobile, maka perlu adanya desain responsif untuk memastikan kenyamanan pengguna di berbagai platform. Responsivitas ini terlihat dari ukuran font yang berubah menyesuaikan ukuran _viewport_, serta bentuk menu yang menyesuaikan.
+
+Contoh yang belum menerapkan _responsive design_ adalah situs web yang dibuat menggunakan teknologi lama seperti [The Big Ugly Website](https://thebiguglywebsite.com/). Karena dibuat dengan teknologi web terdahulu yang diciptakan sebelum era perangkat mobile, responsivitas bukan merupakan prioritas dalam website ini.
+
+### **Jelaskan perbedaan antara _margin_, _border_, dan _padding_, serta cara untuk mengimplementasikan ketiga hal tersebut!**
+
+_Margin_, _border_, dan _padding_ merupakan bagian inti dari CSS Box Model, sebuah konsep yang menyatakan bahwa setiap elemen HTML dianggap sebagai sebuah kotak persegi. Memahami ketiganya sangat penting untuk mengatur tata letak dan jarak antar elemen pada halaman web.
+
+Secara konseptual, perbedaan utama terletak pada posisi mereka relatif terhadap konten elemen. _Padding_ adalah ruang transparan yang berada di dalam batas elemen, yaitu antara konten (seperti teks atau gambar) dan _border_. Menambahkan _padding_ akan mendorong _border_ menjauh dari konten, seolah-olah memberikan ruang bernapas bagi konten di dalam kotaknya. Sebaliknya, _margin_ adalah ruang transparan yang berada di luar batas elemen. Fungsinya adalah untuk menciptakan jarak antara elemen tersebut dengan elemen lain di sekitarnya. Dengan kata lain, _margin_ mendorong seluruh kotak elemen menjauh dari elemen tetangganya.
+
+Di antara _padding_ dan _margin_, terdapat _border_. _Border_ adalah garis yang secara harfiah menjadi batas atau bingkai dari sebuah elemen. Tidak seperti _padding_ dan _margin_ yang selalu transparan, _border_ memiliki properti visual yang bisa diatur, seperti ketebalan (`width`), gaya (`style`, contohnya `solid`, `dashed`, `dotted`), dan warna (`color`). _Border_ inilah yang memisahkan area _padding_ di dalam dengan area _margin_ di luar. Analogi yang paling mudah adalah sebuah bingkai foto: foto adalah konten, ruang putih antara foto dan bingkai adalah _padding_, bingkai itu sendiri adalah _border_, dan jarak antara bingkai tersebut dengan bingkai lain di dinding adalah _margin_.
+
+Untuk mengimplementasikannya, dapat digunakan properti CSS yang ditargetkan pada elemen HTML tertentu. Setiap sisi dapat diatur secara individual (misalnya `padding-top`, `margin-left`) atau menggunakan properti singkat (shorthand) untuk mengatur beberapa sisi sekaligus. Properti singkat ini sangat efisien dan umum digunakan. Untuk _border_, perlu didefinisikan setidaknya ketebalan, gaya, dan warna agar dapat terlihat di halaman.
+
+### **Jelaskan konsep _flexbox_ dan _grid layout_ beserta kegunaannya!**
+
+_Flexbox_, atau secara resmi disebut _Flexible Box Layout_, adalah model tata letak (_layout_) satu dimensi yang dirancang untuk mengatur, menyelaraskan, dan mendistribusikan ruang di antara item-item dalam sebuah wadah (_container_), bahkan ketika ukurannya tidak diketahui atau dinamis. Konsep utamanya adalah satu dimensi, yang berarti _flexbox_ bekerja secara efektif pada satu sumbu saja pada satu waktu, baik secara baris (horizontal) maupun kolom (vertikal). Kegunaan utama _flexbox_ adalah untuk tata letak komponen dan elemen-elemen di dalamnya. Sangat ideal untuk membuat _navigation bar_, menyusun item dalam sebuah kartu (_card_), atau memusatkan elemen secara vertikal dan horizontal dengan mudah—tugas-tugas yang secara historis sulit dilakukan dengan metode CSS tradisional seperti `float`. Dengan properti seperti `justify-content` dan `align-items`, pengembang dapat dengan mudah mengontrol perataan dan spasi item di sepanjang sumbu utama dan sumbu silang.
+
+Di sisi lain, _grid layout_ adalah model tata letak dua dimensi yang lebih kuat, dirancang untuk menangani tata letak halaman secara keseluruhan. Berbeda dengan _flexbox_ yang berorientasi pada satu sumbu, _grid_ memungkinkan pengembang untuk mengontrol tata letak baik dalam baris maupun kolom secara bersamaan. Konsep ini memungkinkan pembuatan struktur yang kompleks dan responsif dengan lebih presisi dan kode yang lebih sedikit. Penggunaannya sangat ideal untuk merancang tata letak utama halaman web, seperti menempatkan _header_, _sidebar_, konten utama, dan _footer_. _Grid_ juga sangat cocok untuk membuat galeri gambar, kalender, atau antarmuka apa pun yang secara alami berbentuk kisi-kisi. Properti seperti `grid-template-columns` dan `grid-template-rows` memberikan kontrol penuh atas ukuran dan jumlah lajur, sementara `gap` memudahkan pengaturan jarak antar elemen.
+
+### **Proses Implementasi _Step-by-Step_**
+
+#### **> Membuat fungsi menghapus dan mengedit produk**
+
+Hal pertama yang dilakukan adalah menambahkan metode `edit_product` dan `delete_product` di [`views.py`](main/views.py) dan melakukan routing kedua metode itu di [`urls.py`](main/urls.py). Setelah itu, untuk antarmuka pengeditan produk, buat file HTML yaitu [`edit_product.html`](main/templates/edit_product.html) dengan isi yang kurang lebih sama dengan [`add_product.html`](main/templates/add_product.html).
+
+#### **> Persiapan kustomisasi halaman web**
+
+Kustomisasi web dilakukan menggunakan _framework_ CSS [Bootstrap](https://getbootstrap.com/). Untuk melakukannya, pada [`base.html`](templates/base.html), tepatnya pada bagian `head`, tambahkan _stylesheet_ dan _script_ Bootstrap serta load file statik (gambar dan grafik yang diperlukan) dan CSS global.
+
+Untuk file statik, buat folder [`static`](static) yang berisi CSS global [`global.css`](static/css/global.css) dan gambar yang akan digunakan.
+
+Setelah itu, pada [`settings.py`](ballin/settings.py), definisikan _middleware_ WhiteNoise serta lokasi file statik yang digunakan.
+
+Referensi yang digunakan sepanjang proses kustomisasi dapat dilihat [di sini](https://getbootstrap.com/docs/5.3/).
+
+#### **> Pembuatan _navigation bar_ dan _hamburger menu_**
+
+Untuk pembuatan _navigation bar_ yang dapat bertransformasi menjadi _hamburger menu_ jika ukuran layar mengecil (misal pada tampilan mobile), gunakan kelas `navbar` dan `offcanvas` yang disediakan oleh Bootstrap. Implementasi navbar ini menampilkan logo aplikasi, serta link untuk ke _homepage_ dan menu _add product_, dan di sisi sebelahnya menampilkan nama pengguna yang saat ini login, waktu login terakhir, dan tombol logout. Implementasi diterapkan di [`navbar.html`](main/templates/navbar.html).
+
+![Desktop View](assets/home.png)
+![Mobile View](assets/mobile.png)
+![Mobile View with opened Hamburger Menu](assets/mobile_hamburger.png)
+
+#### **> Kustomisasi halaman login dan register**
+
+Kustomisasi ini membuat _form_ tampil di tengah layar dan logo aplikasi ditampilkan di atas _form_. Isian _form_ diterapkan menggunakan elemen `label` dan `input`, untuk tombol dilakukan dengan kelas `btn` yang disediakan Bootstrap. Implementasi diterapkan di [`login.html`](main/templates/login.html) dan [`register.html`](main/templates/register.html).
+
+![Login Page](assets/login.png)
+![Register Page](assets/register.png)
+
+#### **> Kustomisasi _homepage_ dan _product cards_**
+
+Langkah pertama adalah membuat tampilan produk berupa _card_ yang dibuat menggunakan kelas `card` bawaan Bootstrap, dengan elemen berupa gambar _thumbnail_, _badge_ untuk keterangan tambahan produk (_featured_, _hot_, dan _out of stock_), informasi nama, penjual, deskripsi, dan harga produk, serta tombol-tombol untuk membuka halaman detail, edit, dan hapus produk. Implementasi diterapkan di [`card.html`](main/templates/card.html).
+
+Selanjutnya, untuk _homepage_, tambahkan navbar yang sudah kita buat sebelumnya, tampilkan _header_ berisi gambar latar belakang serta pesan _welcome_, 2 tombol untuk _filtering_ produk, area untuk daftar _card_ produk, serta _footer_ berisi data nama, NPM, dan kelas. Implementasi diterapkan di [`main.html`](main/templates/main.html).
+
+![Home View](assets/home.png)
+
+Jika tidak ada produk yang ditampilkan, tampilkan gambar statis [`nothing.png`](static/images/nothing.png) di area produk serta pesan bahwa saat ini masih belum ada produk yang bisa ditampilkan.
+
+![Home View with No Products](assets/notfound.png)
+
+#### **> Kustomisasi tampilan detail produk**
+
+Kustomisasi meliputi inklusi _navbar_, penambahan tombol kembali ke menu utama, serta tampilan deskripsi produk berupa dua kolom, satu berupa gambar _thumbnail_, satunya berupa deskripsi produk. Implementasi diterapkan di [`product_detail.html`](main/templates/product_detail.html).
+
+![Product Detail View](assets/details.png)
+
+#### **> Kustomisasi tampilan tambah dan edit produk**
+
+Kustomisasi meliputi inklusi _navbar_, penambahan tombol kembali ke menu utama, form input yang diperbarui di mana elemennya bersifat rata tengah dan selebar _viewport_ (didefinisikan di [`global.css`](static/css/global.css)), serta tombol _submit_ yang diperbarui. Implementasi diterapkan di [`add_product.html`](main/templates/add_product.html) dan [`edit_product.html`](main/templates/edit_product.html).
+
+![Add Product View](assets/addproduct.png)
+![Edit Product View](assets/editproduct.png)
 
 </details>
