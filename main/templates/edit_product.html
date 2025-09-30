@@ -1,11 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block meta %}
-    <title>Edit Product - Ballin</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-{% endblock meta %}
 {% block content %}
+    <title>Edit Product - Ballin</title>
     {% include 'navbar.html' %}
     <div class="container form-style" style="padding-top: 125px">
         <a href="{% url 'main:show_main' %}" class="btn btn-light mb-3">← Go Back</a>

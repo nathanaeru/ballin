@@ -1,11 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block meta %}
-    <title>Welcome to Ballin</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-{% endblock meta %}
 {% block content %}
+    <title>Welcome to Ballin!</title>
     {% include 'navbar.html' %}
     <div class="container-fluid"
          style="background-image: url('{% static 'images/welcome-bg.png' %}');
