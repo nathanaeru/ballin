@@ -2,6 +2,8 @@
 {% load static %}
 {% block meta %}
     <title>{{ product.name }} - Ballin</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 {% endblock meta %}
 {% block content %}
     {% include 'navbar.html' %}
@@ -14,13 +16,15 @@
                          alt="{{ product.name }}"
                          style="width: 80%;
                                 height: auto;
-                                object-fit: contain" />
+                                object-fit: contain;
+                                margin-bottom: 1rem" />
                 {% else %}
                     <img src="{% static 'images/noimage.png' %}"
                          alt="No Image Available"
                          style="width: 80%;
                                 height: auto;
-                                object-fit: contain" />
+                                object-fit: contain;
+                                margin-bottom: 1rem" />
                 {% endif %}
             </div>
             <div class="col-md-6">

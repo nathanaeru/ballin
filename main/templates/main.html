@@ -2,6 +2,8 @@
 {% load static %}
 {% block meta %}
     <title>Welcome to Ballin</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 {% endblock meta %}
 {% block content %}
     {% include 'navbar.html' %}
@@ -63,6 +65,6 @@
                     color: #ffffff;
                     margin-top: 50px;
                     padding-top: 25px;
-                    padding-bottom: 25px;">Created by {{ name }} - {{ npm }} as a project of class {{ class }}</div>
+                    padding-bottom: 25px">Created by {{ name }} - {{ npm }} as a project of class {{ class }}</div>
     </div>
 {% endblock content %}
