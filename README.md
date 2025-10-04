@@ -690,7 +690,7 @@ Berdasarkan "aturan main" tersebut, urutan pengambilan _CSS selector_ adalah seb
 
 ### **Mengapa _responsive design_ menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan responsive design, serta jelaskan mengapa!**
 
-_Responsive design_ memastikan aplikasi web memiliki tampilan menarik dan memiliki usabilitas tinggi di berbagai tipe perangkat, sehingga dapat menarik minat pengguna menggunakan aplikasi karena memiliki pengalaman yang konsisten dan sesuai dengan karakteristik perangkat yang digunakan. Mengingat
+_Responsive design_ memastikan aplikasi web memiliki tampilan menarik dan memiliki usabilitas tinggi di berbagai tipe perangkat, sehingga dapat menarik minat pengguna menggunakan aplikasi karena memiliki pengalaman yang konsisten dan sesuai dengan karakteristik perangkat yang digunakan.
 
 _Responsive design_ adalah tentang menggunakan HTML dan CSS untuk secara otomatis mengubah ukuran, menyembunyikan, mengecilkan, atau memperbesar sebuah situs web, untuk membuatnya terlihat bagus di semua perangkat (desktop, tablet, dan ponsel/mobile).
 
