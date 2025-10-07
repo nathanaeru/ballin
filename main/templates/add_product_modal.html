@@ -1,0 +1,102 @@
+{% load static %}
+<div class="modal fade"
+     id="addProductModal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="addProductModalTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+         role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addProductModalTitle">Add New Product</h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <form id="add-product-form" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="productName" class="form-label">Product Name</label>
+                        <input type="text"
+                               class="form-control"
+                               id="productName"
+                               name="name"
+                               required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="productBrand" class="form-label">Brand</label>
+                        <input type="text"
+                               class="form-control"
+                               id="productBrand"
+                               name="brand"
+                               required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="productCategory" class="form-label">Category</label>
+                        <select class="form-select text-center"
+                                aria-label="Default select example"
+                                id="productCategory"
+                                name="category"
+                                required>
+                            <option value="">Select Category</option>
+                            <option value="ball">Ball</option>
+                            <option value="jersey">Jersey</option>
+                            <option value="shoes">Shoes</option>
+                            <option value="accessories">Accessories</option>
+                            <option value="apparel">Apparel</option>
+                            <option value="merchandise">Merchandise</option>
+                            <option value="others">Others</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="productPrice" class="form-label">Price</label>
+                        <input type="number"
+                               class="form-control"
+                               id="productPrice"
+                               name="price"
+                               min="0"
+                               step="0.01"
+                               required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="productStock" class="form-label">Stock</label>
+                        <input type="number"
+                               class="form-control"
+                               id="productStock"
+                               name="stock"
+                               min="0"
+                               required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="productDescription" class="form-label">Description</label>
+                        <textarea class="form-control"
+                                  id="productDescription"
+                                  name="description"
+                                  rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="productThumbnail" class="form-label">Product Image</label>
+                        <input type="url"
+                               class="form-control"
+                               id="productThumbnail"
+                               name="thumbnail">
+                    </div>
+                    <div class="mb-3 text-center">
+                        <label class="form-label d-block mb-2" for="productFeatured">Featured Product</label>
+                        <input class="form-check-input d-block mx-auto"
+                               type="checkbox"
+                               id="productFeatured"
+                               name="is_featured"
+                               style="transform: scale(1.1)" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Product</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script id="add-product-script"
+        data-add-url="{% url 'main:add_product_ajax' %}"
+        src="{% static 'js/add_product_modal.js' %}"></script>

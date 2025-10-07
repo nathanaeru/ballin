@@ -4,7 +4,8 @@
     <title>Edit Product - Ballin</title>
     {% include 'navbar.html' %}
     <div class="container form-style" style="padding-top: 125px">
-        <a href="{% url 'main:show_main' %}" class="btn btn-light mb-3">← Go Back</a>
+        <a href="{% url 'main:show_product' product.id %}"
+           class="btn btn-light mb-3">← Go Back</a>
         <div class="container-fluid text-center px-0">
             <h1 class="mb-5">Edit Product</h1>
             <form method="POST">

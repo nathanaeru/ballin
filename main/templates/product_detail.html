@@ -1,41 +1,63 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <title>Product Detail - Ballin</title>
+    <title>Product Details</title>
     {% include 'navbar.html' %}
+    {% include 'delete_modal.html' %}
     <div class="container" style=" padding-top: 125px; padding-bottom: 50px;">
+        <!-- Back Button -->
         <a href="{% url 'main:show_main' %}" class="btn btn-light mb-3">← Go Back</a>
-        <div class="row align-items-start">
-            <div class="col-md-6 text-center">
-                {% if product.thumbnail %}
-                    <img src="{{ product.thumbnail }}"
-                         alt="{{ product.name }}"
-                         style="width: 80%;
-                                height: auto;
-                                object-fit: contain;
-                                margin-bottom: 1rem" />
-                {% else %}
-                    <img src="{% static 'images/noimage.png' %}"
-                         alt="No Image Available"
-                         style="width: 80%;
-                                height: auto;
-                                object-fit: contain;
-                                margin-bottom: 1rem" />
-                {% endif %}
+        <!-- Loading State -->
+        <div id="loading" class="text-center d-none" style="margin-top: 50px;">
+            <div class="spinner-border text-primary" role="status"></div>
+            <div style="margin-top: 10px; font-size: 1.5rem;">Loading product details...</div>
+        </div>
+        <!-- Error State -->
+        <div id="error" class="d-none text-center" style="margin-top: 50px;">
+            <img src="{% static 'images/error.png' %}"
+                 alt="Error loading products"
+                 style="display: block;
+                        margin-left: auto;
+                        margin-right: auto;
+                        width: 20%;
+                        height: auto;
+                        object-fit: contain" />
+            <div class="text-center" style="margin-top: 10px; font-size: 1.5rem; ">
+                Error loading product details. Please try again later.
+            </div>
+        </div>
+        <!-- Product Details -->
+        <div id="product-details" class="row align-items-start d-none">
+            <div id="product-thumbnail" class="col-md-6 text-center">
+                <!-- Thumbnail will be displayed here -->
             </div>
             <div class="col-md-6">
-                <div style="font-size: 2rem; font-weight: 600; padding-bottom: 20px;">{{ product.name }}</div>
-                {% if product.is_featured %}<span class="badge bg-success">Featured</span>{% endif %}
-                {% if product.is_hot_selling %}<span class="badge bg-danger">Hot</span>{% endif %}
-                {% if product.stock <= 0 %}<span class="badge bg-dark">Out of Stock</span>{% endif %}
-                <div style="font-size: 1.2rem; font-weight: 600; margin-top: 10px;">Price: Rp{{ product.price }}</div>
-                <div style="margin-top: 10px;">Brand: {{ product.brand }}</div>
-                <div style="margin-top: 10px;">Category: {{ product.get_category_display }}</div>
-                <div style="margin-top: 10px;">Stock: {{ product.stock }}</div>
-                <div style="margin-top: 10px;">Sold: {{ product.sold }}</div>
-                <div style="margin-top: 10px;">Seller: {{ product.user.username }}</div>
-                <div style="margin-top: 20px;">{{ product.description }}</div>
+                <div id="buttons-container" class="mb-3 d-none">
+                    <!-- Edit and Delete buttons will be displayed here -->
+                </div>
+                <div id="product-name"
+                     style="font-size: 2rem;
+                            font-weight: 600;
+                            padding-bottom: 20px">Loading...</div>
+                <div id="product-badges">
+                    <!-- Badges will be displayed here -->
+                </div>
+                <div id="product-price"
+                     style="font-size: 1.2rem;
+                            font-weight: 600;
+                            margin-top: 10px">Loading...</div>
+                <div id="product-brand" style="margin-top: 10px;">Loading...</div>
+                <div id="product-category" style="margin-top: 10px;">Loading...</div>
+                <div id="product-stock" style="margin-top: 10px;">Loading...</div>
+                <div id="product-sold" style="margin-top: 10px;">Loading...</div>
+                <div id="product-seller" style="margin-top: 10px;">Loading...</div>
+                <div id="product-description" style="margin-top: 20px;">Loading...</div>
             </div>
         </div>
     </div>
+    <!-- JavaScript Section -->
+    <script>const NO_IMAGE_URL = "{% static 'images/noimage.png' %}";</script>
+    <script src="{% static 'js/toast.js' %}"></script>
+    <script id="product-script" src="{% static 'js/product.js' %}" data-current-user-id="{{ user.id | default_if_none:'' }}" data-product-id="{{ product.id }}" data-product-endpoint="{% url 'main:show_json_by_id' product.id %}" data-product-edit-url="{% url 'main:edit_product' product.id %}" data-product-delete-url="{% url 'main:delete_product' product.id %}">
+    </script>
 {% endblock content %}
