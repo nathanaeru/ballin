@@ -771,3 +771,56 @@ Kustomisasi meliputi inklusi _navbar_, penambahan tombol kembali ke menu utama, 
 ![Edit Product View](assets/editproduct.png)
 
 </details>
+
+<details>
+<summary><h2><b>Jawaban Pertanyaan Tugas 6</b></h2></summary>
+
+### **Apa perbedaan antara _synchronous request_ dan _asynchronous request_?**
+
+_Synchronous request_ adalah request yang ketika dikirimkan, selama request itu masih dalam proses pengiriman, proses lain yang dilakukan pada klien akan diblok (tidak dijalankan) hingga proses request selesai. Dengan demikian, eksekusi proses berikutnya harus menunggu proses tersebut selesai dilaksanakan terlebih dahulu, sehingga prosesnya lebih lambat namun teratur.
+
+_Asynchronous request_ adalah request yang ketika dikirimkan, tidak akan memblok proses lain yang dijalankan bersamaan dengan request itu. Dengan demikian, eksekusi proses berikutnya tidak perlu menunggu proses tersebut selesai dilaksanakan terlebih dahulu dan bisa langsung dieksekusi, sehingga meningkatkan _throughput_ yang disebabkan beberapa proses berjalan pada suatu waktu.
+
+[Referensi](https://www.mendix.com/blog/asynchronous-vs-synchronous-programming/)
+
+### **Bagaimana AJAX bekerja di Django (alur request–response)?**
+
+-   Request diawali dengan terjadinya suatu event di halaman web (seperti menekan tombol atau pengisian form) yang memicu suatu fungsi yang ada di kode JavaScript halaman web.
+-   Fungsi JavaScript ini membuat suatu _asynchronous request_ dengan membuat objek `XMLHttpRequest` atau menggunakan `Fetch` API. Request ini kemudian diteruskan ke URL tertentu yang telah didaftarkan di `urls.py`.
+-   Di sisi server, `urls.py` akan meneruskan permintaan ini ke fungsi _view_ yang sesuai. _View_ tersebut akan memproses permintaan, berinteraksi dengan models atau database jika diperlukan, dan kemudian mengembalikan respons dalam format data seperti JSON atau XML, bukan merender template HTML penuh.
+-   Setelah klien menerima respons ini, fungsi JavaScript yang sama akan memproses data tersebut dan secara dinamis memperbarui bagian tertentu dari halaman HTML menggunakan manipulasi DOM, sehingga tidak perlu dilakukan _refresh_ halaman secara keseluruhan.
+
+### **Apa keuntungan menggunakan AJAX dibandingkan render biasa di Django?**
+
+Penggunaan AJAX memungkinkan pembaruan konten halaman web diapat dilakukan secara dinamis tanpa perlu melakukan _refresh_ halaman web secara penuh, sehingga meningkatkan pengalaman pengguna dan efisiensi. Karena data yang dikirimkan antara klien dan server umumnya berukuran lebih kecil (misal berupa JSON alih-alih keseluruhan halaman HTML), hal ini dapat mengurangi waktu tunggu pengiriman dan pemrosesan, beban kerja, dan _bandwidth_ data yang dikirimkan, sehingga dapat meningkatkan efisiensi aplikasi, yang sangat membantu terutama oleh pengguna dengan perangkat atau koneksi internet yang terbatas.
+
+### **Bagaimana cara memastikan keamanan saat menggunakan AJAX untuk fitur Login dan Register di Django?**
+
+Berikut merupakan langkah-langkah yang bisa dilakukan.
+
+-   Memastikan koneksi yang digunakan untuk login/register adalah HTTPS yang merupakan koneksi yang aman karena mengenkripsi semua data yang dikirimkan antara klien dan server.
+-   Menerapkan perlindungan terhadap serangan CSRF dengan menggunakan fitur CSRF token yang disediakan oleh Django
+-   Di sisi server, validasi data masukan harus dilakukan secara ketat untuk mencegah serangan seperti _SQL injection_.
+-   Penting untuk tidak pernah menampilkan pesan error yang terlalu detail yang dapat memberikan petunjuk kepada penyerang. Cukup tampilkan pesan yang umum seperti "Username atau password salah" yang mencakup kedua kasus alih-alih menampilkan "Username salah" atau "Password salah" untuk dua kasus berbeda. Dengan demikian, penyerang tidak dapat mengetahui input yang salah itu di bagian username, password, atau keduanya.
+
+### **Bagaimana AJAX mempengaruhi pengalaman pengguna (User Experience) pada website?**
+
+AJAX secara fundamental mengubah pengalaman pengguna dengan membuat aplikasi web terasa lebih lancar, cepat, dan interaktif, mirip seperti aplikasi desktop. Dengan menghilangkan kebutuhan untuk memuat ulang halaman secara penuh setiap kali pengguna melakukan aksi, AJAX mengurangi waktu tunggu yang mengganggu dan memberikan umpan balik instan. Misalnya, saat pengguna mengisi formulir, validasi data dapat dilakukan secara real-time tanpa harus mengirimkan seluruh formulir terlebih dahulu. Pengalaman yang lebih mulus dan responsif ini secara langsung meningkatkan kepuasan pengguna dan membuat mereka lebih mungkin untuk terus berinteraksi dengan website tersebut.
+
+### **Proses Implementasi _Step-by-Step_**
+
+-   Langkah pertama yang diterapkan adalah implementasi notifikasi toast yang akan muncul ketika proses login, register, dan logout, serta ketika penambahan, update, dan penghapusan produk. Implementasi terdapat di [`toast.html`](main/templates/toast.html) dengan _driver code_-nya di [`toast.js`](static/js/toast.js).
+
+-   Selanjutnya, perbarui login dan register untuk menerapkan AJAX. Pembaruan ini meliputi perubahan di [`login.html`](main/templates/login.html) dan [`register.html`](main/templates/register.html) untuk melakukan submisi secara asinkronus dan menampilkan toast setelah proses dilaksanakan. Untuk itu, perlu dibuat kode JS untuk masing-masing halaman yaitu [`login.js`](static/js/login.js) dan [`register.js`](static/js/register.js). Selain itu, ubah [`navbar.html`](main/templates/navbar.html) untuk membuat tombol logout menampilkan toast ketika diklik.
+
+-   Perubahan selanjutnya adalah pada halaman utama produk. Daftar produk ditampilkan secara asinkronus menggunakan AJAX, dan elemen _card_ setiap produk dibangun dengan teknologi JavaScript. Diterapkan juga _loading_, _empty_, dan _error state_ pada halaman utama, juga tombol _refresh_ untuk memperbarui daftar produk secara dinamis tanpa _full refresh_ dari browser, juga tombol baru untuk menambahkan produk dengan AJAX (melalui _modal dialog_). Referensi: [`main.html`](main/templates/main.html) dan [`main.js`](static/js/main.js).
+
+-   Perubahan juga terjadi di halaman detail produk. Tampilan produk diubah menjadi dinamis dengan AJAX, diterapkan _loading_ dan _error state_, adanya tombol Edit dan Delete pada halaman detail jika user produk sama dengan user yang saat ini login, serta adanya formatting pada tampilan harga. Referensi: [`product_detail.html`](main/templates/product_detail.html) dan [`product.js`](static/js/product.js).
+
+-   Modal konfirmasi untuk menghapus produk diterapkan di [`delete_modal.html`](main/templates/delete_modal.html) dengan kelas `modal` bawaan Bootstrap. Logikanya diterapkan di [`main.js`](static/js/main.js).
+
+-   Add Product dengan AJAX diterapkan melalui pembuatan modal di [`add_product_modal.html`](main/templates/add_product_modal.html) dengan _driver code_-nya di [`add_product_modal.js`](static/js/add_product_modal.js). Perlu ada penambahan fungsi `add_product_ajax` di [`views.py`](main/views.py) beserta routingnya di [`urls.py`](main/urls.py) untuk menangani ini.
+
+-   Edit Product dengan AJAX diterapkan melalui pembuatan modal di [`edit_product_modal.html`](main/templates/edit_product_modal.html). Logikanya diterapkan di [`main.js`](static/js/main.js). Perlu ada penambahan fungsi `edit_product_ajax` di [`views.py`](main/views.py) beserta routingnya di [`urls.py`](main/urls.py) untuk menangani ini.
+
+</details>

@@ -39,7 +39,8 @@
                             <div style="font-size:0.85rem;padding-right:18px;">Last Login: {{ user.last_login }}</div>
                         </div>
                         <a href="{% url 'main:logout_user' %}"
-                           class="mt-auto justify-content-end">
+                           class="mt-auto justify-content-end"
+                           onclick="event.preventDefault(); showToast('Logout Success', 'You have been logged out.', 'success'); setTimeout(function(){ window.location.href = '{% url 'main:logout_user' %}'; }, 1000);">
                             <button class="btn btn-danger">Logout</button>
                         </a>
                     {% endif %}
