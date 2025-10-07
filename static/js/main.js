@@ -216,10 +216,10 @@ function init() {
         deleteButton.addEventListener("click", handleDeleteProduct);
     }
     if (editSaveButton) {
-        editSaveButton.addEventListener("click", function (e) {
-            e.preventDefault();
-            handleEditProduct();
-        });
+        const editForm = document.getElementById("edit-product-form");
+        if (editForm) {
+            editForm.addEventListener("submit", handleEditProduct);
+        }
     }
     fetchProducts();
 }
@@ -281,22 +281,49 @@ async function handleDeleteProduct() {
     }
 }
 
-function setEditedProductId(productId) {
-    const editButton = document.getElementById("edit-button");
-    if (editButton) {
-        editButton.setAttribute("data-product-id", productId);
+async function populateEditForm(productId) {
+    const productJsonUrl = `/json/${productId}/`;
+    try {
+        const response = await fetch(productJsonUrl);
+        if (!response.ok) {
+            throw new Error("Failed to fetch product data");
+        }
+        const product = await response.json();
+        document.getElementById("editProductName").value = product.name;
+        document.getElementById("editProductBrand").value = product.brand;
+        document.getElementById("editProductCategory").value = product.category;
+        document.getElementById("editProductPrice").value = product.price;
+        document.getElementById("editProductStock").value = product.stock;
+        document.getElementById("editProductDescription").value =
+            product.description;
+        document.getElementById("editProductThumbnail").value =
+            product.thumbnail;
+        document.getElementById("editProductFeatured").checked =
+            product.is_featured;
+        const editSaveButton = document.getElementById("edit-save-button");
+        if (editSaveButton) {
+            editSaveButton.setAttribute("data-product-id", productId);
+        }
+    } catch (error) {
+        console.error("Error populating edit form");
+        showToast("Error", "Could not load product data for editing.", "error");
     }
 }
 
-async function handleEditProduct() {
-    const form = document.querySelector("#edit-product-form");
-    const formData = new FormData(form);
-    const editButton = document.getElementById("edit-save-button");
-    const productId = editButton.getAttribute("data-product-id");
+function setEditedProductId(productId) {
+    populateEditForm(productId);
+}
+
+async function handleEditProduct(event) {
+    event.preventDefault();
+    const editSaveButton = document.getElementById("edit-save-button");
+    const productId = editSaveButton.getAttribute("data-product-id");
     if (!productId) {
         console.error("No product ID found");
         return;
     }
+    const form = document.getElementById("edit-product-form");
+    const formData = new FormData(form);
     const editUrl = EDIT_PRODUCT_URL_TEMPLATE.replace(
         "00000000-0000-0000-0000-000000000000",
         productId
@@ -306,23 +333,23 @@ async function handleEditProduct() {
             method: "POST",
             headers: {
                 "X-CSRFToken": getCsrfToken(),
-                "Content-Type": "application/json",
             },
             body: formData,
         });
-        if (response.ok) {
+        const data = await response.json();
+        if (response.ok && data.status === "success") {
             const modal = bootstrap.Modal.getInstance(
                 document.getElementById("editProductModal")
             );
+            if (modal) {
+                modal.hide();
+            }
             showToast(
                 "Edit Product Success",
                 "Product edited successfully",
                 "success"
             );
-            if (modal) {
-                modal.hide();
-            }
-            await fetchProducts();
+            await fetchProducts(); // Refresh the product list
         } else {
             console.error("Failed to edit product");
             showToast(
@@ -332,7 +359,7 @@ async function handleEditProduct() {
             );
         }
     } catch (error) {
-        console.error("Error editing product:", error);
+        console.error("Failed to edit product");
         showToast(
             "Edit Product Error",
             "Error editing product. Please try again.",

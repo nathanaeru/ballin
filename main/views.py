@@ -225,27 +225,11 @@ def add_product_ajax(request):
 @require_POST
 def edit_product_ajax(request, id):
     product = get_object_or_404(Product, pk=id)
-
-    if product.user != request.user:
-        return HttpResponse(b"FORBIDDEN", status=403)
-
-    name = strip_tags(request.POST.get("name"))
-    brand = strip_tags(request.POST.get("brand"))
-    category = strip_tags(request.POST.get("category"))
-    price = strip_tags(request.POST.get("price"))
-    stock = strip_tags(request.POST.get("stock"))
-    description = strip_tags(request.POST.get("description"))
-    thumbnail = strip_tags(request.POST.get("thumbnail"))
-    is_featured = request.POST.get("is_featured") == "on"
-
-    product.name = name
-    product.brand = brand
-    product.category = category
-    product.price = price
-    product.stock = stock
-    product.description = description
-    product.thumbnail = thumbnail
-    product.is_featured = is_featured
-    product.save()
-
-    return HttpResponse(b"UPDATED", status=200)
+    form = ProductForm(request.POST, instance=product)
+    if form.is_valid():
+        form.save()
+        return JsonResponse(
+            {"status": "success", "message": "Product updated successfully."}
+        )
+    else:
+        return JsonResponse({"status": "error", "errors": form.errors}, status=400)
