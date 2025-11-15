@@ -1,4 +1,6 @@
 import datetime
+import mimetypes
+import requests
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -13,6 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils.html import strip_tags
+import json
 
 # Create your views here.
 
@@ -91,6 +94,28 @@ def show_xml(request):
 
 def show_json(request):
     products = Product.objects.all()
+    data = [
+        {
+            "id": str(product.id),
+            "name": product.name,
+            "user": product.user.id,
+            "username": product.user.username,
+            "brand": product.brand,
+            "price": product.price,
+            "stock": product.stock,
+            "sold": product.sold,
+            "description": product.description,
+            "thumbnail": product.thumbnail,
+            "category": product.category,
+            "is_featured": product.is_featured,
+        }
+        for product in products
+    ]
+    return JsonResponse(data, safe=False)
+
+
+def show_json_by_username(request, username):
+    products = Product.objects.filter(user__username=username).select_related("user")
     data = [
         {
             "id": str(product.id),
@@ -233,3 +258,82 @@ def edit_product_ajax(request, id):
         )
     else:
         return JsonResponse({"status": "error", "errors": form.errors}, status=400)
+
+
+def proxy_image(request):
+    image_url = request.GET.get("url")
+    if not image_url:
+        return HttpResponse("No URL provided", status=400)
+
+    proxy_headers = {
+        "User-Agent": "ballin/1.0 (+https://github.com/nathanaeru/ballin)",
+        "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
+    }
+
+    try:
+        # Fetch image from external source with a friendly UA to avoid 403s
+        response = requests.get(image_url, timeout=10, headers=proxy_headers)
+        response.raise_for_status()
+
+        content_type = response.headers.get("Content-Type", "").lower()
+
+        # Fall back to inferring type for providers that omit the header
+        if not content_type.startswith("image/"):
+            guessed_type, _ = mimetypes.guess_type(image_url)
+            if guessed_type and guessed_type.startswith("image/"):
+                content_type = guessed_type
+            else:
+                payload = response.content
+                if payload.startswith(b"\x89PNG\r\n\x1a\n"):
+                    content_type = "image/png"
+                elif payload.startswith(b"RIFF") and payload[8:12] == b"WEBP":
+                    content_type = "image/webp"
+                elif payload.startswith(b"\xff\xd8"):
+                    content_type = "image/jpeg"
+                elif payload.startswith(b"GIF87a") or payload.startswith(b"GIF89a"):
+                    content_type = "image/gif"
+                else:
+                    content_type = "image/jpeg"
+
+        return HttpResponse(
+            response.content,
+            content_type=content_type or "application/octet-stream",
+        )
+    except requests.exceptions.HTTPError as err:
+        status_code = err.response.status_code if err.response else 502
+        return HttpResponse(
+            f"Upstream responded with {status_code}", status=status_code
+        )
+    except requests.RequestException as err:
+        return HttpResponse(f"Error fetching image: {str(err)}", status=502)
+
+
+@csrf_exempt
+def create_product_flutter(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        name = strip_tags(data.get("name", ""))
+        brand = strip_tags(data.get("brand", ""))
+        category = strip_tags(data.get("category", ""))
+        price = strip_tags(data.get("price", "0"))
+        stock = strip_tags(data.get("stock", "0"))
+        description = strip_tags(data.get("description", ""))
+        thumbnail = strip_tags(data.get("thumbnail", ""))
+        is_featured = data.get("is_featured", False)
+        user = request.user
+
+        product = Product(
+            name=name,
+            brand=brand,
+            category=category,
+            price=price,
+            stock=stock,
+            description=description,
+            thumbnail=thumbnail,
+            is_featured=is_featured,
+            user=user,
+        )
+        product.save()
+        return JsonResponse({"status": "success"}, status=201)
+    else:
+        return JsonResponse({"status": "error"}, status=400)
